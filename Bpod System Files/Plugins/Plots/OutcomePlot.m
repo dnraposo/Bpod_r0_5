@@ -28,6 +28,7 @@ function OutcomePlot(AxesHandle, Action, varargin)
 % Adapted from BControl (SidesPlotSection.m) 
 % Kachi O. 2014.Mar.17
 
+
 %% Code Starts Here
 global nTrialsToShow %this is for convenience
 % global BpodSystem
@@ -39,16 +40,16 @@ switch Action
         
         nTrialsToShow = 90; %default number of trials to display
         
-        if nargin > 3 %custom number of trials
-            nTrialsToShow =varargin{3};
+        if length(varargin) > 1 %custom number of trials
+            nTrialsToShow = varargin{2};
         end
         
         %plot in specified axes
-        scatter(AxesHandle,  1:nTrialsToShow, SideList(1:nTrialsToShow),'MarkerFaceColor','b','MarkerEdgeColor', 'b');
-        set(AxesHandle,'TickDir', 'out','YLim', [-1, 2], 'YTick', [0 1],'YTickLabel', { 'Right','Left'});
-        
+        plot(AxesHandle, 1:nTrialsToShow, SideList(1:nTrialsToShow), 'o', 'MarkerFaceColor','b','MarkerEdgeColor', 'b', 'MarkerSize', 4);
         hold(AxesHandle, 'on');
-        
+        % scatter(AxesHandle,  1:nTrialsToShow, SideList(1:nTrialsToShow),'MarkerFaceColor','b','MarkerEdgeColor', 'b');
+        set(AxesHandle,'TickDir', 'out','YLim', [-1, 2], 'YTick', [0 1],'YTickLabel', { 'Right','Left'}, 'box', 'off');
+                
     case 'update'
         CurrentTrial = varargin{1};
         SideList = varargin{2};
@@ -60,34 +61,34 @@ switch Action
         
         % recompute xlim
         [mn, mx] = rescaleX(AxesHandle,CurrentTrial,nTrialsToShow);
-        
+
         %plot future trials
         FutureTrialsIndx = CurrentTrial:mx;
-        scatter(AxesHandle,  FutureTrialsIndx, SideList(FutureTrialsIndx),'MarkerFaceColor','b','MarkerEdgeColor', 'b');
+        plot(AxesHandle, FutureTrialsIndx, SideList(FutureTrialsIndx), 'o', 'MarkerFaceColor','b','MarkerEdgeColor', 'b', 'MarkerSize', 4);
         
         %Plot current trial
-        scatter(AxesHandle,CurrentTrial,SideList(CurrentTrial), 'o', 'MarkerFaceColor',[1 1 1],'MarkerEdgeColor', 'k')
-        scatter(AxesHandle,CurrentTrial,SideList(CurrentTrial), '+', 'MarkerFaceColor',[1 1 1],'MarkerEdgeColor', 'k')
-        
+        plot(AxesHandle,CurrentTrial,SideList(CurrentTrial), 'o', 'MarkerFaceColor',[1 1 1],'MarkerEdgeColor', 'k', 'MarkerSize', 4);
+        plot(AxesHandle,CurrentTrial,SideList(CurrentTrial), '+', 'MarkerFaceColor',[1 1 1],'MarkerEdgeColor', 'k', 'MarkerSize', 4);
+
         %Plot past trials
         if ~isempty(OutcomeRecord)
             indxToPlot = mn:CurrentTrial-1;
             
             %Plot Correct
             CorrectTrialsIndx = (OutcomeRecord(indxToPlot) == 1);
-            scatter(AxesHandle,  indxToPlot(CorrectTrialsIndx), SideList(indxToPlot(CorrectTrialsIndx)),'MarkerFaceColor','g','MarkerEdgeColor', 'g');
+            plot(AxesHandle,  indxToPlot(CorrectTrialsIndx), SideList(indxToPlot(CorrectTrialsIndx)), 'o','MarkerFaceColor','g','MarkerEdgeColor', 'g', 'MarkerSize', 4);
             %Plot Incorrect
             InCorrectTrialsIndx = (OutcomeRecord(indxToPlot) == 0);
-            scatter(AxesHandle,  indxToPlot(InCorrectTrialsIndx), SideList(indxToPlot(InCorrectTrialsIndx)),'MarkerFaceColor','r','MarkerEdgeColor', 'r');
+            plot(AxesHandle,  indxToPlot(InCorrectTrialsIndx), SideList(indxToPlot(InCorrectTrialsIndx)), 'o','MarkerFaceColor','r','MarkerEdgeColor', 'r', 'MarkerSize', 4);
             %Plot EarlyWithdrawals
             EarlyWithdrawalTrialsIndx =(OutcomeRecord(indxToPlot) == -1);
-            scatter(AxesHandle,  indxToPlot(EarlyWithdrawalTrialsIndx), SideList(indxToPlot(EarlyWithdrawalTrialsIndx)),'ro','MarkerFaceColor',[1 1 1]);
+            plot(AxesHandle,  indxToPlot(EarlyWithdrawalTrialsIndx), SideList(indxToPlot(EarlyWithdrawalTrialsIndx)),'ro','MarkerFaceColor',[1 1 1], 'MarkerSize', 4);
             %Plot DidNotChoose
             DidNotChooseTrialsIndx = (OutcomeRecord(indxToPlot) == 2);
-            scatter(AxesHandle,  indxToPlot(DidNotChooseTrialsIndx), SideList(indxToPlot(DidNotChooseTrialsIndx)),'bo','MarkerFaceColor',[1 1 1]);
+            plot(AxesHandle,  indxToPlot(DidNotChooseTrialsIndx), SideList(indxToPlot(DidNotChooseTrialsIndx)),'bo','MarkerFaceColor',[1 1 1], 'MarkerSize', 4);
             
-            drawnow;
         end
+        % drawnow;
 
 end
 
