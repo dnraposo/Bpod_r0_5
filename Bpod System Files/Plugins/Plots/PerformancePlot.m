@@ -101,9 +101,10 @@ switch Action
                 TrialType2Perf(lastTrial) = mean(ValidTrials(TrialType2)>0); %compute mean
                 h4 = plot(AxesHandle,indxToPlot,TrialType2Perf(indxToPlot),'s','MarkerFaceColor',colors(4,:),'MarkerEdgeColor', colors(4,:),'MarkerSize',markersize); %plot
                 
+                legend(AxesHandle,[h1,h2,h3,h4],'complete','correct','left','right','Location','South','Orientation','horizontal')
             end
 %             
-            legend(AxesHandle,[h1,h2,h3,h4],'complete','correct','left','right','Location','South','Orientation','horizontal')
+
             legend(AxesHandle,'boxoff')
             
             plot(AxesHandle,indxToPlot,0.5*ones(size(indxToPlot)),'k--')
