@@ -349,7 +349,7 @@ if ~isempty(ValveIDs)
     handles.CB6b = uicontrol('Style', 'edit', 'Position', [155 164 80 35], 'TooltipString', 'Enter liquid weight for valve 6', 'FontWeight', 'bold', 'FontSize', 12, 'BackgroundColor', [.9 .9 .9]);
     handles.CB7b = uicontrol('Style', 'edit', 'Position', [155 121 80 35], 'TooltipString', 'Enter liquid weight for valve 7', 'FontWeight', 'bold', 'FontSize', 12, 'BackgroundColor', [.9 .9 .9]);
     handles.CB8b = uicontrol('Style', 'edit', 'Position', [155 78 80 35], 'TooltipString', 'Enter liquid weight for valve 8', 'FontWeight', 'bold', 'FontSize', 12, 'BackgroundColor', [.9 .9 .9]);
-    MeasurementButtonGFX2 = imread('MeasurementEntryOKButtonBG.bmp');
+    MeasurementButtonGFX2 = imread('MeasurementEntryOkButtonBG.bmp');
     handles.EnterMeasurementButton2 = uicontrol('Style', 'pushbutton', 'String', '', 'Position', [120 7 80 50], 'Callback', 'EnterCalMeasurements', 'TooltipString', 'Enter measurement', 'CData', MeasurementButtonGFX2);
     
     % Prompt for each valid measurement in order, un-hiding the GUI box and
