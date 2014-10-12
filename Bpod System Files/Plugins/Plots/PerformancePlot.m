@@ -27,7 +27,7 @@ function PerformancePlot(AxesHandle, Action, varargin)
 %                                -1: withdrawal (red circle)
 %                                 0: incorrect choice (red dot)
 %                                 1: correct choice (green dot)
-%                                 2: did not choose (green circle)
+%                                 -2: did not choose (green circle)
 % 'color': color flag
 % colors: nx3 matrix, each row represents a color. eg. red = [1 0 0]
 %         make sure there are enough rows for the items you plan to plot
@@ -87,18 +87,24 @@ switch Action
 
             %compute & plot total performance
             trialsToInclude = max(1,PrevValidTrialsCount - windowSizeToAverage + 1):PrevValidTrialsCount; %for performance only use completed (valid) trials
-            PerformanceVec(lastTrial) = mean(OutcomeRecord(trialsToInclude)== 1);
+%             PerformanceVec(lastTrial) = mean(OutcomeRecord(trialsToInclude)== 1); 
+            PerformanceVec(lastTrial) = sum(OutcomeRecord(trialsToInclude) == 1) / sum(ValidTrials(trialToInclude)); % added 09-Oct-2014
+            
             h2 = plot(AxesHandle,indxToPlot,PerformanceVec(indxToPlot),'s','MarkerFaceColor',colors(2,:),'MarkerEdgeColor', colors(2,:),'MarkerSize',markersize);
             
             %compute & plot performance for each trial type (i.e side)
             if ~isempty(SideList)
                 
                 TrialType1 = (SideList(trialsToInclude) == 1); %LEFT trials
-                TrialType1Perf(lastTrial) = mean(ValidTrials(TrialType1)>0); %compute mean
+                % TrialType1Perf(lastTrial) = mean(ValidTrials(TrialType1)>0); %compute mean
+                TrialType1Perf(lastTrial) = sum(OutcomeRecord(trialsToInclude & TrialType1) == 1) / sum(ValidTrials(trialToInclude & TrialType1)); % added 09-Oct-2014
+
                 h3 = plot(AxesHandle,indxToPlot,TrialType1Perf(indxToPlot),'s','MarkerFaceColor',colors(3,:),'MarkerEdgeColor', colors(3,:),'MarkerSize',markersize); %plot
                 
                 TrialType2 = (SideList(trialsToInclude) == 0); %RIGHT trials
-                TrialType2Perf(lastTrial) = mean(ValidTrials(TrialType2)>0); %compute mean
+                % TrialType2Perf(lastTrial) = mean(ValidTrials(TrialType2)>0); %compute mean
+                TrialType2Perf(lastTrial) = sum(OutcomeRecord(trialsToInclude & TrialType2) == 1) / sum(ValidTrials(trialToInclude & TrialType2)); % added 09-Oct-2014
+
                 h4 = plot(AxesHandle,indxToPlot,TrialType2Perf(indxToPlot),'s','MarkerFaceColor',colors(4,:),'MarkerEdgeColor', colors(4,:),'MarkerSize',markersize); %plot
                 
                 legend(AxesHandle,[h1,h2,h3,h4],'complete','correct','left','right','Location','South','Orientation','horizontal')

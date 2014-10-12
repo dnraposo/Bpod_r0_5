@@ -21,7 +21,7 @@ function OutcomePlot(AxesHandle, Action, varargin)
 %                                -1: withdrawal (red circle)
 %                                 0: incorrect choice (red dot)
 %                                 1: correct choice (green dot)
-%                                 2: did not choose (green circle)
+%                                 -2: did not choose (green circle)
 % OutcomeRecord can also be empty
 % Current trial: the current trial number
 
@@ -64,6 +64,7 @@ switch Action
 
         %plot future trials
         FutureTrialsIndx = CurrentTrial:mx;
+        cla(AxesHandle);
         plot(AxesHandle, FutureTrialsIndx, SideList(FutureTrialsIndx), 'o', 'MarkerFaceColor','b','MarkerEdgeColor', 'b', 'MarkerSize', 4);
         
         %Plot current trial
@@ -84,11 +85,11 @@ switch Action
             EarlyWithdrawalTrialsIndx =(OutcomeRecord(indxToPlot) == -1);
             plot(AxesHandle,  indxToPlot(EarlyWithdrawalTrialsIndx), SideList(indxToPlot(EarlyWithdrawalTrialsIndx)),'ro','MarkerFaceColor',[1 1 1], 'MarkerSize', 4);
             %Plot DidNotChoose
-            DidNotChooseTrialsIndx = (OutcomeRecord(indxToPlot) == 2);
+            DidNotChooseTrialsIndx = (OutcomeRecord(indxToPlot) == -2);
             plot(AxesHandle,  indxToPlot(DidNotChooseTrialsIndx), SideList(indxToPlot(DidNotChooseTrialsIndx)),'bo','MarkerFaceColor',[1 1 1], 'MarkerSize', 4);
             
         end
-        % drawnow;
+        drawnow;
 
 end
 
